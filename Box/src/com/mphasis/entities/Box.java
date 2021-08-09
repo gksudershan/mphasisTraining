@@ -1,13 +1,15 @@
 package com.mphasis.entities;
 
 public class Box {
-    double width;
-    double height;
-    double depth;
+    public double width;
+    public double height;
+    public double depth;
 
     // construct clone of an object
     public Box(Box ob){
-
+        this.width = ob.width;
+        this.height = ob.height;
+        this.depth = ob.depth;
     }
 
     // constructor used when all dimensions specified
@@ -18,16 +20,16 @@ public class Box {
     }
 
     public Box(){
-        width=-1;
-        height=-1;
-        depth=-1;
+        this.width=-1;
+        this.height=-1;
+        this.depth=-1;
     }
 
-    Box(double len){
+    public Box(double len){
         width = height = depth = len;
     }
 
-    double volume(){
+    public double volume(){
         return width*height*depth;
     }
 }
