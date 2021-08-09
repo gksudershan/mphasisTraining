@@ -13,6 +13,13 @@ class Factory{
         return point;
     }
 }
+
+class Printer{
+    public void print(Point point){
+        System.out.println(point.x+","+point.y);
+    }
+}
+
 public class Main {
 
     public static void main(String[] args) {
