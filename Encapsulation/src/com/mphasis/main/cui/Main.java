@@ -12,6 +12,7 @@ public class Main {
         derived.test();
         Base1 base1 = new Base1();
         base1.publicField =3;
+        
 
     }
 }

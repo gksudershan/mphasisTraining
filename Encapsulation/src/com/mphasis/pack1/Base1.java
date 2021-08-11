@@ -6,6 +6,7 @@ public class Base1 {
     protected int protectedField;
     public int publicField;
 
+
      public void test(){
         privateField=1;
         defaultField=2;
