@@ -16,13 +16,16 @@ class Data{
 }
 
 class Task implements Runnable{
-    Thread firstThread;
+    Thread consumer,producer;
     Data data;
     private static Logger logger;
     static{
         logger = Logger.getLogger(Task.class.getName());
     }
     Task(){
+        producer = new Thread(this,"Producer");
+        consumer = new Thread(this,"Consumer");
+        producer.start();
         data = new Data();
     }
     @Override
@@ -46,13 +49,28 @@ class Task implements Runnable{
 
         for(int count=0;count<10;count++){
             if (currThread.getName().equals("Producer")){
-                printInfo(currThread.toString());
+                if(consumer!=null && !consumer.isAlive()){
+                    consumer.start();
+                }
                 synchronized (data){        //attempt to acquire the lock
                     data.setValue(count);
+                    printInfo(currThread.toString()+count);
+                    try {
+                        data.notify();
+                        data.wait(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }// release the lock automatically
             }else if (currThread.getName().equals("Consumer")){
                 synchronized (data){
                     printInfo(currThread+String.valueOf(data.getValue()));
+                    try{
+                        data.notify();
+                        data.wait(100);
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -71,21 +89,25 @@ public class Main {
     public static void main(String[] args) {
 	// write your code here
        // printInfo(String.valueOf(Runtime.getRuntime().availableProcessors()));
-        Thread mainThread = Thread.currentThread();
-        printInfo(mainThread.toString());
-        printInfo(mainThread.getState().toString());
+        //Thread mainThread = Thread.currentThread();
+        //printInfo(mainThread.toString());
+        //printInfo(mainThread.getState().toString());
         Task task = new Task();
-        Thread thread1 = new Thread(task,"Consumer");
-        Thread thread2 = new Thread(task,"Producer");
 
-        printInfo(thread1.toString());
-        printInfo(thread1.toString() +" " + thread1.getState().toString());
+        //Thread thread1 = new Thread(task,"Producer");
+        //Thread thread2 = new Thread(task,"Consumer");
 
-        thread1.start();
-        thread2.start();
-        printInfo("Thread1 is ==========>"+" " + thread1.getState().toString());
-        printInfo("Thread2 is ==========>"+" " + thread2.getState().toString());
-        try{
+        //printInfo(thread1.toString());
+        //printInfo(thread1.toString() +" " + thread1.getState().toString());
+
+        //thread1.start();
+        //thread2.start();
+
+
+        //printInfo("Thread1 is ==========>"+" " + thread1.getState().toString());
+        //printInfo("Thread2 is ==========>"+" " + thread2.getState().toString());
+
+       /* try{
            //mainThread.sleep(1);
            //printInfo(mainThread.getState().toString());
             thread1.join();
@@ -94,8 +116,10 @@ public class Main {
             e.printStackTrace();
         }
 
-        printInfo(thread1.getName() + " " + thread1.getState().toString());
-        printInfo(thread2.getName() + " " + thread2.getState().toString());
+        */
+
+        //printInfo(thread1.getName() + " " + thread1.getState().toString());
+        //printInfo(thread2.getName() + " " + thread2.getState().toString());
         printInfo("End");
     }
 
