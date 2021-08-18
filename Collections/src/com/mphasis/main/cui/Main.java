@@ -73,7 +73,7 @@ public class Main {
             }
         }
 
-        HashSet<Point> hashSet = new HashSet<Point>();
+       /* HashSet<Point> hashSet = new HashSet<Point>();
 
         hashSet.add(new Point(2,4));
         hashSet.add(new Point(2,4));
@@ -81,6 +81,31 @@ public class Main {
 
         System.out.println(hashSet);
 
+        */
+
+        HashMap<String,Integer> paymentDetails = new HashMap<String,Integer>();
+        paymentDetails.put("Joe",21332);
+        paymentDetails.put("Mathew",13455);
+        paymentDetails.put("David",18000);
+
+        Integer res = paymentDetails.get("Joe");
+
+        Set<Map.Entry<String,Integer>> allDetails = paymentDetails.entrySet();
+
+        Iterator<Map.Entry<String,Integer>> iterator = allDetails.iterator();
+
+        while(iterator.hasNext()){
+            Map.Entry keyValue = iterator.next();
+            System.out.println("key: "+keyValue.getKey()+","+"value: "+keyValue.getValue());
+        }
+        Iterator<String> iterator1 = paymentDetails.keySet().iterator();
+        Iterator<Integer> iterator2 = paymentDetails.values().iterator();
+        while(iterator1.hasNext()){
+            String key =  iterator1.next();
+            int value = iterator2.next();
+            System.out.println("key: "+key+","+"value: "+value);
+
+        }
     }
 
 
