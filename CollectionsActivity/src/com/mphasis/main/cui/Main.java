@@ -182,5 +182,100 @@ public class Main {
 
         System.out.println("Minimum: " + Collections.min(ll));
         System.out.println("Maximum: " + Collections.max(ll));
+
+        // Allocate and initialize array.
+        int array[] = new int[10];
+        for(int i = 0; i < 10; i++)
+            array[i] = -3 * i;
+
+        // Display, sort, and display the array.
+        System.out.print("Original contents: ");
+        display(array);
+        Arrays.sort(array);
+        System.out.print("Sorted: ");
+        display(array);
+
+        // Fill and display the array.
+        Arrays.fill(array, 2, 6, -1);
+        System.out.print("After fill(): ");
+        display(array);
+
+        // Sort and display the array.
+        Arrays.sort(array);
+        System.out.print("After sorting again: ");
+        display(array);
+
+        // Binary search for -9.
+        System.out.print("The value -9 is at location ");
+        int index =
+                Arrays.binarySearch(array, -9);
+
+        System.out.println(index);
+        System.out.println();
+
+        ArrayList list = new ArrayList();
+
+        // These lines store strings, but any type of object
+        // can be stored.  In old-style code, there is no
+        // convenient way restrict the type of objects stored
+        // in a collection
+        list.add("one");
+        list.add("two");
+        list.add("three");
+        list.add("four");
+
+        Iterator itr = list.iterator();
+        while(itr.hasNext()) {
+
+            // To retrieve an element, an explicit type cast is needed
+            // because the collection stores only Object.
+            String str = (String) itr.next(); // explicit cast needed here.
+
+            System.out.println(str + " is " + str.length() + " chars long.");
+        }
+            Vector<Integer> vector = new Vector<>(3,2);
+            System.out.println("Initial size: "+ vector.size());
+            System.out.println("Initial capacity: "+vector.capacity());
+
+            vector.add(1);
+            vector.add(2);
+            vector.add(3);
+            vector.add(4);
+
+            System.out.println("Capacity after four additions: "+vector.capacity());
+            vector.add(5);
+            System.out.println("Current capacity: "+vector.capacity());
+            vector.add(6);
+            vector.add(7);
+
+            System.out.println("Current capacity: "+vector.capacity());
+            vector.add(9);
+            vector.add(10);
+
+            System.out.println("Current capacity: "+vector.capacity());
+            vector.add(11);
+            vector.add(12);
+
+            System.out.println("First element: " + vector.firstElement());
+            System.out.println("Last element: " + vector.lastElement());
+
+            if(vector.contains(3)){
+                System.out.println("Collection contains 3");
+            }
+
+            System.out.println("Elements in collections: ");
+            Iterator iterator1 = vector.iterator();
+            while(iterator1.hasNext()){
+                System.out.println(iterator1.next()+" ");
+            }
+            System.out.println();
+
+        }
+
+    public static void display(int array[]) {
+        for(int i: array)
+            System.out.print(i + " ");
+
+        System.out.println();
     }
 }
