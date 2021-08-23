@@ -89,11 +89,14 @@ public class Main {
         paymentDetails.put("David",18000);
 
         Integer res = paymentDetails.get("Joe");
-
         Set<Map.Entry<String,Integer>> allDetails = paymentDetails.entrySet();
-
+        System.out.println(paymentDetails.entrySet());
         Iterator<Map.Entry<String,Integer>> iterator = allDetails.iterator();
+        for (Map.Entry a:paymentDetails.entrySet()
+             ) {
+            System.out.println(a);
 
+        }
         while(iterator.hasNext()){
             Map.Entry keyValue = iterator.next();
             System.out.println("key: "+keyValue.getKey()+","+"value: "+keyValue.getValue());

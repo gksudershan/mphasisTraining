@@ -1,10 +1,17 @@
 package com.mphasis.main.cui;
 
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Exchange {
@@ -56,9 +63,9 @@ public class Exchange {
                 System.out.println("Error connecting to client");
             }
 
-
+            Connection connection = new Connection(clientSock,this);
             ExecutorService executorService = Executors.newCachedThreadPool();
-            executorService.execute(new Connection(clientSock, this));
+            executorService.execute(connection);
             //new Thread(
                     //new Connection(clientSock, this) ).start();
 
@@ -109,6 +116,31 @@ public class Exchange {
 
             try
             {
+                List<PriorityQueue<Order>> a;
+                /*orderbook.entrySet().stream()
+
+                        .flatMap(element->element.getValue().stream())
+                        .filter(order -> orderToFill.price<=order.price && order.type==OrderType.SELL)
+                        .forEach(order -> {match(orderToFill,order);});
+
+                 */
+
+                a=orderbook.entrySet().stream()
+                        .map(element->element.getValue())
+                        .collect(Collectors.toList());
+
+                ListIterator<PriorityQueue<Order>> listIterator = a.listIterator();
+                while(listIterator.hasNext()){
+                    PriorityQueue<Order> temp= listIterator.next();
+                    temp.stream()
+                            .filter(order -> orderToFill.price<=order.price && order.type==OrderType.SELL)
+                            .forEach(order -> {
+                                temp.remove(order);
+                                match(orderToFill,order);
+                                });
+
+                }
+                        
                 for ( ConcurrentMap.Entry<Double, PriorityQueue<Order> > priceLevel : orderbook.entrySet())
                 {
                     for (Order individualOrder : priceLevel.getValue())
@@ -197,7 +229,18 @@ public class Exchange {
         // iterate through the orderbook until you find the ORDER ID
         // when you do find it, remove it
         //then send message to the client.
-        for ( ConcurrentMap.Entry<Double, PriorityQueue<Order> > priceLevel : orderbook.entrySet())
+
+        orderbook.entrySet().stream()
+                .flatMap(element->element.getValue().stream())
+                .forEach(element-> {
+                    System.out.println("COmparing order id " + element.orderID.toString() + " to order id " + orderID);
+               if(element.orderID.toString().equals(orderID)){
+                   System.out.println("Removing order # "+orderID);
+               orderbook.entrySet().stream()
+               .forEach(a->a.getValue().remove(element));}
+                });
+
+       /* for ( ConcurrentMap.Entry<Double, PriorityQueue<Order> > priceLevel : orderbook.entrySet())
         {
 
             for (Order individualOrder : priceLevel.getValue())
@@ -217,7 +260,7 @@ public class Exchange {
             }
 
 
-        }
+        }*/
 
 
     }
@@ -230,9 +273,14 @@ public class Exchange {
 
         StringBuilder book = new StringBuilder();
 
+        orderbook.entrySet().stream()
+                .map(element->element.getValue().peek())
+                .filter(element->element!=null)
+                .forEach(element->{book.append("Price: " + String.valueOf(element.price) + "    Quantity: " + String.valueOf(element.quantity) + " 	Type: " +  element.type.toString());
+                book.append(System.getProperty("line.separator"));});
 
         // loop to build the book string
-        for ( ConcurrentMap.Entry<Double, PriorityQueue<Order> > priceLevel : orderbook.entrySet()){
+        /*for ( ConcurrentMap.Entry<Double, PriorityQueue<Order> > priceLevel : orderbook.entrySet()){
 
             Order order = priceLevel.getValue().peek();
 
@@ -247,6 +295,8 @@ public class Exchange {
 
             //book.append(str)
         }
+
+         */
         System.out.println("Market Data assembled! " + book.toString());
 
 
@@ -268,6 +318,7 @@ public class Exchange {
             System.out.println("Could not find a FEEd connection to send market data too..");
 
     }
+
 
 
     public boolean registerClientFeed(String clientID, Connection connObject)

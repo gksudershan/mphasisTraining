@@ -39,6 +39,7 @@ public class Connection implements Runnable{
         this.conn = clientSocket;
         this.exchange = excObj;
         feedMessageQueue = new PriorityQueue<String>();
+
     }
 
     public void run(){ //threading method
