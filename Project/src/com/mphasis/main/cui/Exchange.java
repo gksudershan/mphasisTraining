@@ -140,7 +140,7 @@ public class Exchange {
                                 });
 
                 }
-                        
+
                 for ( ConcurrentMap.Entry<Double, PriorityQueue<Order> > priceLevel : orderbook.entrySet())
                 {
                     for (Order individualOrder : priceLevel.getValue())
