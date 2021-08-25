@@ -1,9 +1,11 @@
 package tests;
 
+import com.mphasis.MathApplication;
 import com.mphasis.Portfolio;
 import com.mphasis.entities.Stock;
 import com.mphasis.services.CalculatorService;
 import com.mphasis.services.StockService;
+import com.sun.media.sound.RIFFInvalidDataException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,11 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class Main {
-    @InjectMocks
+    /*@InjectMocks
     Portfolio portfolio;
 
     @Mock
@@ -43,14 +46,18 @@ public class Main {
         assertEquals(100500.00,marketValue,0.0);
     }
 
+     */
+
     @Mock
     CalculatorService calculatorService;
 
+    @InjectMocks
+    MathApplication mathApplication;
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void testSum(){
-        when(calculatorService.sum(2,4)).thenReturn(6);
-        int ans = calculatorService.sum(2,4);
+        doThrow(new RuntimeException("Add operation not implemented")).when(calculatorService).sum(2,4);
+        int ans = mathApplication.getCalculatorService().sum(2,4);
         assertEquals(6,ans,0.0);
     }
 
