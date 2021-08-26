@@ -6,25 +6,25 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">
-            org.hibernate.dialect.H2Dialect
+            org.hibernate.dialect.Oracle9iDialect
         </property>
 
         <property name="hibernate.connection.driver_class">
-            org.h2.Driver
+            oracle.jdbc.driver.OracleDriver
         </property>
 
         <!-- Assume test is the database name -->
 
         <property name="hibernate.connection.url">
-            jdbc:h2:file:./src/main/resources/data/h2db;AUTO_SERVER=true
+            jdbc:oracle:thin:@DESKTOP-45GJQ8N:1521:orcl1
         </property>
 
         <property name="hibernate.connection.username">
-            sa
+            hr
         </property>
 
         <property name="hibernate.connection.password">
-            password
+            hrpass
         </property>
 
         <property name="hbm2ddl.auto">
@@ -33,8 +33,8 @@
 
         <property name="show_sql">true</property>
 
-
-        <mapping resource="Employee.hbm.xml"/>
+        <mapping class="com.mphasis.entities.Employee"/>
+        <!--<mapping resource="Employee.hbm.xml"/>-->
 
     </session-factory>
 </hibernate-configuration>

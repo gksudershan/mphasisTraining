@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.sql.DriverManager;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,7 +17,9 @@ public class Main {
 
     public static void main(String[] args){
 
+
         try {
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             factory = new Configuration().configure().buildSessionFactory();
             Main main = new Main();
 

@@ -11,7 +11,9 @@
         </meta>
 
         <id name = "id" type = "int" column = "id">
-            <generator class="native"/>
+            <generator class="sequence">
+            <param name="sequence_name">EMPLOYEE_ID_SEQ</param>
+            </generator>
         </id>
 
         <property name = "firstName" column = "first_name" type = "string"/>
