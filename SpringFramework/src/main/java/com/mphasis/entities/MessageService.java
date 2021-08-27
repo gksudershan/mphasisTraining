@@ -1,5 +1,5 @@
 package com.mphasis.entities;
 
 public interface MessageService {
-    public void sendMessage(String recipient,String msg);
+    public boolean sendMessage(String recipient,String msg);
 }

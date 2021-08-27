@@ -14,7 +14,8 @@ public class TwitterService implements MessageService{
     }
 
     @Override
-    public void sendMessage(String recipient, String msg) {
+    public boolean sendMessage(String recipient, String msg) {
         System.out.println("This is a " + msg + " sent to "+recipient);
+        return true;
     }
 }
